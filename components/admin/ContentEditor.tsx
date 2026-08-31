@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { saveContent } from "@/app/admin/actions";
+import { importReelFromUrl, saveContent } from "@/app/admin/actions";
 import type { SiteContent } from "@/lib/types";
 import ImageUploader from "./ImageUploader";
 
@@ -242,6 +242,27 @@ export default function ContentEditor({ initial }: { initial: SiteContent }) {
   const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [errMsg, setErrMsg] = useState<string | null>(null);
 
+  const [reelUrl, setReelUrl] = useState("");
+  const [reelBusy, setReelBusy] = useState(false);
+  const [reelError, setReelError] = useState<string | null>(null);
+
+  const addReel = async () => {
+    if (!reelUrl.trim() || reelBusy) return;
+    setReelBusy(true);
+    setReelError(null);
+    const res = await importReelFromUrl(reelUrl);
+    if (res.ok) {
+      setC((prev) => ({
+        ...prev,
+        mediaArchive: [...prev.mediaArchive, res.item],
+      }));
+      setReelUrl("");
+    } else {
+      setReelError(res.error);
+    }
+    setReelBusy(false);
+  };
+
   const previewRef = useRef<HTMLIFrameElement>(null);
   const [previewPath, setPreviewPath] = useState("/");
   const [previewDevice, setPreviewDevice] = useState<"desktop" | "mobile">(
@@ -458,13 +479,13 @@ export default function ContentEditor({ initial }: { initial: SiteContent }) {
       {/* Media & Archive */}
       <Section title="Media & Archive (이미지 갤러리)">
         <p className="text-xs text-muted">
-          각 이미지에 링크를 넣으면, 공개 사이트에서 사진 클릭 시 새 탭으로 이동합니다.
-          (비워두면 클릭해도 이동하지 않음)
+          인스타그램 링크는 공개 사이트에서 사진 클릭 시 팝업으로 재생되고, 그 외
+          링크는 새 탭으로 열립니다. (비워두면 클릭해도 이동하지 않음)
         </p>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
           {c.mediaArchive.map((item, i) => (
             <div key={i} className="space-y-2">
-              <div className="aspect-square overflow-hidden border border-line bg-placeholder">
+              <div className="aspect-[9/16] overflow-hidden border border-line bg-placeholder">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={item.image} alt="" className="h-full w-full object-cover" />
               </div>
@@ -496,9 +517,32 @@ export default function ContentEditor({ initial }: { initial: SiteContent }) {
             </div>
           ))}
         </div>
+        <div className="space-y-1">
+          <div className="flex items-end gap-2">
+            <input
+              value={reelUrl}
+              onChange={(e) => setReelUrl(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addReel())}
+              placeholder="https://www.instagram.com/reel/..."
+              className="w-full border-b border-ink/40 bg-transparent pb-1 text-xs focus:border-ink focus:outline-none"
+            />
+            <button
+              type="button"
+              onClick={addReel}
+              disabled={reelBusy || !reelUrl.trim()}
+              className="shrink-0 border border-ink px-3 py-1 text-xs transition-colors hover:bg-ink hover:text-paper disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              {reelBusy ? "가져오는 중…" : "릴스 URL로 추가"}
+            </button>
+          </div>
+          <p className="text-xs text-muted">
+            릴스 URL을 붙여넣으면 썸네일을 자동으로 가져와 갤러리에 추가합니다.
+          </p>
+          {reelError && <p className="text-xs text-red-600">{reelError}</p>}
+        </div>
         <ImageUploader
           label="이미지 추가"
-          aspect="aspect-square"
+          aspect="aspect-[9/16]"
           value={null}
           onChange={(url) =>
             url &&

@@ -22,6 +22,7 @@ function normalizeMedia(raw: unknown): MediaItem[] | null {
         : {
             image: String((item as MediaItem)?.image ?? ""),
             link: String((item as MediaItem)?.link ?? ""),
+            ...((item as MediaItem)?.embed === false ? { embed: false } : {}),
           },
     )
     .filter((m) => m.image);
@@ -72,7 +73,9 @@ export async function getActivities(): Promise<Activity[]> {
 }
 
 export async function getActivity(id: string): Promise<Activity | null> {
-  if (!isSupabaseConfigured) {
+  // 기본 콘텐츠 id(default-N)는 uuid가 아니라 DB 조회가 불가 —
+  // 목록이 폴백으로 렌더된 경우에도 상세 링크가 동작하도록 기본값에서 찾는다.
+  if (!isSupabaseConfigured || id.startsWith("default-")) {
     return DEFAULT_ACTIVITIES.find((a) => a.id === id) ?? null;
   }
   try {

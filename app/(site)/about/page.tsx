@@ -2,14 +2,22 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import ActivityCard from "@/components/ActivityCard";
 import CtaBanner from "@/components/CtaBanner";
+import { BreadcrumbJsonLd } from "@/components/JsonLd";
 import { getActivities, getSiteContent } from "@/lib/content";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "About | 박재현",
+  title: "About",
   description:
     "한국브랜드마케팅연구소 대표 · 연세대 브랜드전문가과정 前 책임교수 박재현. 25년간 브랜드 네이밍·전략·스토리 설계를 통해 브랜드의 방향을 고민해 왔습니다.",
+  alternates: { canonical: "/about" },
+  openGraph: {
+    title: "About | 박재현",
+    description:
+      "한국브랜드마케팅연구소 대표 · 연세대 브랜드전문가과정 前 책임교수 박재현. 25년간 브랜드 네이밍·전략·스토리 설계를 통해 브랜드의 방향을 고민해 왔습니다.",
+    url: "/about",
+  },
 };
 
 export default async function AboutPage() {
@@ -21,6 +29,7 @@ export default async function AboutPage() {
 
   return (
     <>
+      <BreadcrumbJsonLd items={[{ name: "About", path: "/about" }]} />
       {/* About */}
       <section className="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-24">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-14">

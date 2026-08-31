@@ -5,7 +5,8 @@ export type Stat = { value: string; label: string };
 export type CurrentActivity = { no: string; title: string; desc: string };
 
 // Media & Archive 갤러리 항목 (이미지 + 클릭 시 이동할 링크)
-export type MediaItem = { image: string; link: string };
+// embed: false — 인스타그램이 임베드를 차단한 게시물. 팝업 대신 새 탭으로 연다.
+export type MediaItem = { image: string; link: string; embed?: boolean };
 
 export type SiteContent = {
   hero: {

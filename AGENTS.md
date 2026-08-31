@@ -1,6 +1,6 @@
-# CLAUDE.md — brand_insighter 홈페이지
+# AGENTS.md — brand_insighter 홈페이지
 
-이 파일은 이 프로젝트에서 작업하는 Claude(및 협업자)가 따라야 할 기준 문서다.
+이 파일은 이 프로젝트에서 작업하는 Codex(및 협업자)가 따라야 할 기준 문서다.
 모든 구현·결정은 이 문서의 규칙을 우선한다.
 
 ---
@@ -228,13 +228,13 @@ npm start       # 빌드 결과 실행
    (새 `sb_publishable_...` 키) 입력 후 재시작. 구 anon 키도 폴백 지원되나 deprecated.
 5. Vercel 배포 시 동일 환경변수를 프로젝트 설정에 추가
 - **MCP**: `.mcp.json`에 Supabase MCP 서버 등록됨(project_ref `opxqydoebiquhhmcnhmq`).
-  세션에서 MCP 도구를 쓰려면 인증 후 Claude Code 재시작이 필요할 수 있음.
+  세션에서 MCP 도구를 쓰려면 인증 후 Codex 재시작이 필요할 수 있음.
 
 ---
 
 ## 12. 전역 규칙 상속
 
-사용자 전역 `~/.claude/CLAUDE.md` 규칙을 이 프로젝트에서도 따른다:
+사용자 전역 `~/.Codex/AGENTS.md` 규칙을 이 프로젝트에서도 따른다:
 - 법령·세제·정책·요율 등은 답변 전 최신 자료 검색 (기억 의존 금지)
 - 라이브러리/프레임워크 최신 문서는 **Context7 MCP**로 확인
 - UI 변경 후 브라우저 실동작 검증은 **Playwright MCP**

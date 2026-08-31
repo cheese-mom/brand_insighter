@@ -1,14 +1,22 @@
 import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
 import CtaBanner from "@/components/CtaBanner";
+import { BreadcrumbJsonLd } from "@/components/JsonLd";
 import { getSiteContent } from "@/lib/content";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Contact | 박재현",
+  title: "Contact",
   description:
     "브랜드 전략, 네이밍, 강연 및 아카데미 관련 문의. 한국브랜드마케팅연구소로 문의를 남겨주세요.",
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    title: "Contact | 박재현",
+    description:
+      "브랜드 전략, 네이밍, 강연 및 아카데미 관련 문의. 한국브랜드마케팅연구소로 문의를 남겨주세요.",
+    url: "/contact",
+  },
 };
 
 export default async function ContactPage() {
@@ -16,6 +24,7 @@ export default async function ContactPage() {
 
   return (
     <>
+      <BreadcrumbJsonLd items={[{ name: "Contact", path: "/contact" }]} />
       <section className="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-24">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-[1fr_20rem] md:gap-16">
           <div>

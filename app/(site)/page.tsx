@@ -1,5 +1,6 @@
 import LogoMarquee from "@/components/LogoMarquee";
 import CtaBanner from "@/components/CtaBanner";
+import MediaArchive from "@/components/MediaArchive";
 import { getSiteContent } from "@/lib/content";
 
 export const dynamic = "force-dynamic";
@@ -105,38 +106,7 @@ export default async function Home() {
           <h2 className="font-display text-2xl font-extrabold leading-tight tracking-tight md:text-3xl">
             Media &amp; Archive
           </h2>
-          <div className="grid grid-cols-3 gap-3">
-            {(mediaArchive.length > 0
-              ? mediaArchive
-              : Array.from({ length: 12 }, () => null)
-            ).map((item, i) => {
-              const cell = (
-                <div className="aspect-square overflow-hidden bg-placeholder">
-                  {item?.image && (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={item.image}
-                      alt=""
-                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                  )}
-                </div>
-              );
-              return item?.link ? (
-                <a
-                  key={i}
-                  href={item.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group block"
-                >
-                  {cell}
-                </a>
-              ) : (
-                <div key={i}>{cell}</div>
-              );
-            })}
-          </div>
+          <MediaArchive items={mediaArchive} />
         </div>
       </section>
 
