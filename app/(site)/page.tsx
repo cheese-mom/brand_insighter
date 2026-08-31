@@ -12,6 +12,16 @@ export default async function Home() {
   const heroImage = "/assets/hero.jpg";
   const projectStats = DEFAULT_CONTENT.stats;
   const archiveItems = mediaArchive.filter((item) => item.link.trim().length > 0);
+  const mobileHeroLines = [
+    "대한민국",
+    "대표 브랜드를",
+    "만들어 낸",
+    "브랜드 전문가",
+  ];
+  const mobileActivityTitles: Record<string, string[]> = {
+    "02": ["마마무(MAMAMU)", "브랜드 아카데미 운영"],
+    "03": ["기업 브랜딩 컨설팅", "& 브랜드 강연"],
+  };
 
   return (
     <>
@@ -20,11 +30,20 @@ export default async function Home() {
         <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-[minmax(0,735px)_500px] lg:gap-0">
           <div>
             <h1 className="font-display text-[36px] leading-[1.03] tracking-[-0.03em] sm:text-[44px] lg:text-[50px]">
-              {hero.lines.map((line, i) => (
-                <span key={i} className="block text-faint">
-                  {line}
-                </span>
-              ))}
+              <span className="sm:hidden">
+                {mobileHeroLines.map((line) => (
+                  <span key={line} className="block text-faint">
+                    {line}
+                  </span>
+                ))}
+              </span>
+              <span className="hidden sm:block">
+                {hero.lines.map((line, i) => (
+                  <span key={i} className="block text-faint">
+                    {line}
+                  </span>
+                ))}
+              </span>
               <span className="mt-1 block text-[50px] text-ink sm:text-[60px] lg:text-[70px]">
                 {hero.name}
               </span>
@@ -98,7 +117,20 @@ export default async function Home() {
                 </span>
                 <div>
                   <h3 className="font-display text-[22px] leading-none tracking-[-0.03em] text-ink md:text-[35px]">
-                    {act.title}
+                    {mobileActivityTitles[act.no] ? (
+                      <>
+                        <span className="md:hidden">
+                          {mobileActivityTitles[act.no].map((line) => (
+                            <span key={line} className="block">
+                              {line}
+                            </span>
+                          ))}
+                        </span>
+                        <span className="hidden md:inline">{act.title}</span>
+                      </>
+                    ) : (
+                      act.title
+                    )}
                   </h3>
                   <p className="mt-3 max-w-[600px] text-[13px] leading-[1.55] text-muted md:text-[16px]">
                     {act.desc}
