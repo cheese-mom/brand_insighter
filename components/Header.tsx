@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -15,13 +16,15 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-ink bg-paper/95 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 md:px-8">
-        <Link href="/" className="leading-none" aria-label={`${HEADER.name} 홈`}>
-          <span className="block text-[11px] tracking-wide text-muted">
-            {HEADER.roleSmall}
-          </span>
-          <span className="block text-xl font-bold tracking-tight text-ink">
-            {HEADER.name}
-          </span>
+        <Link href="/" className="block" aria-label={`${HEADER.name} 홈`}>
+          <Image
+            src="/logo.png"
+            alt={`${HEADER.roleSmall} ${HEADER.name}`}
+            width={368}
+            height={185}
+            priority
+            className="h-10 w-auto"
+          />
         </Link>
 
         {/* Desktop nav */}
