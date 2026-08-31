@@ -48,6 +48,17 @@ export default async function Home() {
                 {hero.name}
               </span>
             </h1>
+
+            {/* 모바일에서는 이름 바로 아래에 메인 사진을 배치 */}
+            <div className="mt-8 aspect-[500/708] w-full overflow-hidden bg-placeholder md:hidden">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={heroImage}
+                alt={`${hero.name} 브랜드 전문가`}
+                className="h-full w-full object-cover"
+              />
+            </div>
+
             <p className="mt-7 text-[15px] font-extrabold leading-snug text-ink lg:text-[18px]">
               {hero.subtitle}
             </p>
@@ -61,7 +72,7 @@ export default async function Home() {
           </div>
 
           {/* 인물 사진 */}
-          <div className="aspect-[500/708] w-full overflow-hidden bg-placeholder sm:max-w-[500px] lg:-ml-[55px] lg:justify-self-end">
+          <div className="hidden aspect-[500/708] w-full overflow-hidden bg-placeholder sm:max-w-[500px] md:block lg:-ml-[55px] lg:justify-self-end">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={heroImage}
