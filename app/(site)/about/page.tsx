@@ -26,12 +26,13 @@ export default async function AboutPage() {
     getActivities(),
   ]);
   const preview = activities.slice(0, 3);
+  const aboutImage = about.image || "/assets/about.jpg";
 
   return (
     <>
       <BreadcrumbJsonLd items={[{ name: "About", path: "/about" }]} />
       {/* About */}
-      <section className="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-24">
+      <section className="mx-auto max-w-[1280px] px-5 py-16 md:px-[50px] md:py-24">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-14">
           <div>
             <h1 className="font-display text-5xl font-black tracking-tight md:text-6xl">
@@ -49,24 +50,18 @@ export default async function AboutPage() {
 
           {/* 인물 사진 */}
           <div className="aspect-[3/4] w-full overflow-hidden bg-placeholder md:max-w-md md:justify-self-end">
-            {about.image ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={about.image}
-                alt="박재현"
-                className="h-full w-full object-cover"
-              />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center text-sm text-neutral-400">
-                PORTRAIT
-              </div>
-            )}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={aboutImage}
+              alt="박재현 브랜드 전문가"
+              className="h-full w-full object-cover"
+            />
           </div>
         </div>
       </section>
 
       {/* Activity 미리보기 */}
-      <section className="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-20">
+      <section className="mx-auto max-w-[1280px] px-5 py-16 md:px-[50px] md:py-20">
         <div className="flex items-end justify-between">
           <h2 className="font-display text-3xl font-extrabold tracking-tight md:text-4xl">
             Activity

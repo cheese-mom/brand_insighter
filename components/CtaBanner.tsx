@@ -16,17 +16,16 @@ export default function CtaBanner({ variant = "image" }: Props) {
     >
       {withImage && (
         <>
-          {/* 배경 이미지 placeholder (카메라 장비 — 실제 이미지 전까지 그라데이션) */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-b from-neutral-300 via-neutral-200 to-neutral-100"
+            className="absolute inset-0 bg-[url('/assets/cta.jpg')] bg-cover bg-center"
           />
-          <div aria-hidden="true" className="absolute inset-0 bg-paper/30" />
+          <div aria-hidden="true" className="absolute inset-0 bg-white/45" />
         </>
       )}
 
       <div className="relative mx-auto max-w-6xl px-5 text-center md:px-8">
-        <h2 className="font-display text-5xl font-black tracking-tight text-ink sm:text-6xl md:text-7xl lg:text-8xl">
+        <h2 className="font-display text-5xl tracking-[-0.03em] text-ink sm:text-6xl md:text-7xl lg:text-[90px]">
           Let&rsquo;s Build Your Brand
         </h2>
 

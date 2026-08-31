@@ -1,14 +1,6 @@
 import type { Metadata } from "next";
-import { Archivo } from "next/font/google";
 import { getSiteUrl, SITE_DESCRIPTION, SITE_NAME, SITE_TITLE } from "@/lib/site";
 import "./globals.css";
-
-const archivo = Archivo({
-  variable: "--font-archivo",
-  subsets: ["latin"],
-  weight: ["400", "600", "700", "800", "900"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   metadataBase: getSiteUrl(),
@@ -42,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className={`${archivo.variable} antialiased`}>
+    <html lang="ko" className="antialiased">
       <head>
         <link
           rel="stylesheet"

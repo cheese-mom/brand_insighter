@@ -9,20 +9,23 @@ export const NAV = [
 ];
 
 export const HEADER = {
-  roleSmall: "브랜드 전문가",
+  roleSmall: "브랜드 인사이터",
   name: "박재현",
 };
 
 // 협업 브랜드 (로고 마퀴) — 현재 정적
 export const BRANDS = [
-  "LG WHISEN",
-  "LG WHISEN",
-  "LG WHISEN",
-  "LG WHISEN",
-  "LG WHISEN",
-  "LG WHISEN",
-  "LG WHISEN",
-  "LG WHISEN",
+  { name: "LG WHISEN", label: "엘지휘센", image: "/assets/logos/lg-whisen.png" },
+  { name: "HD현대", label: "HD현대", image: "/assets/logos/hd-hyundai.png" },
+  { name: "NHN", label: "NHN", image: "/assets/logos/hnn.png" },
+  { name: "SK innovation", label: "SK이노베이션", image: "/assets/logos/sk-innovation.png" },
+  { name: "AhnLab", label: "안랩", image: "/assets/logos/ahnlab.png" },
+  { name: "쁘띠첼", label: "쁘띠첼", image: "/assets/logos/petitzel.png" },
+  { name: "E1", label: "E1", image: "/assets/logos/e1.png" },
+  { name: "PARNAS", label: "파르나스", image: "/assets/logos/parnas.png" },
+  { name: "SK ZIC", label: "SK지크", image: "/assets/logos/sk-zic.png" },
+  { name: "SK discovery", label: "SK디스커버리", image: "/assets/logos/sk-discovery.png" },
+  { name: "트루맘", label: "트루맘", image: "/assets/logos/dreamon.png" },
 ];
 
 // Supabase 미설정 시 사용하는 기본 콘텐츠 (편집 가능 항목의 초기값)
@@ -32,12 +35,14 @@ export const DEFAULT_CONTENT: SiteContent = {
     name: "박재현",
     subtitle: "한국브랜드마케팅연구소 대표 · 연세대 브랜드전문가과정 前 책임교수",
     paragraphs: [
-      "안녕하세요? 한국브랜드마케팅연구소의 박재현 대표입니다.\n홈페이지를 방문해 주셔서 반갑습니다.\n이제 브랜드(BRAND)는 단순한 마케팅만으로는 효과를 기대하기 어려운 시기입니다.",
+      "안녕하세요? 한국브랜드마케팅연구소의 박재현 대표입니다.\n홈페이지를 방문해 주셔서 반갑습니다.\n이제 브랜드(BRAND)를 떠나서는 효과적인 마케팅을 기대하기 어려운 시기입니다.",
       "고객과 브랜드의 관계 형성이 어떻게 되느냐에 따라 브랜드의 파워 및 가치가 결정되는 상황에서 우리는 최적의 브랜드 마케팅을 진행하여야만 이 시대에서 생존할 수 있습니다.",
-      "한국브랜드마케팅연구소는 이러한 브랜드 마케팅 과제를 수행하는 대한민국 대표 브랜드 전문가 그룹입니다.",
+      "급변하는 마케팅 환경에서 과연 어떤 전략을 구사하여야 고객의 마음속에 러브마크를 찍을 수 있을까요?",
+      "어떤 스토리텔링 전략을 써야 고객과의 러브스토리를 계속적으로 이어갈 수 있을까요?",
+      "한국브랜드마케팅연구소는 이러한 브랜드 마케팅 과제를 수행하는 대한민국 대표 브랜드 전문가 그룹입니다.\n언제든지 연락주시면 귀사의 브랜딩에 최적화된 솔루션을 제공하도록 하겠습니다.",
       "감사합니다.",
     ],
-    image: null,
+    image: "/assets/hero.jpg",
   },
   stats: [
     { value: "+25", label: "경력" },
@@ -48,12 +53,12 @@ export const DEFAULT_CONTENT: SiteContent = {
     {
       no: "01",
       title: "한국브랜드마케팅연구소 대표",
-      desc: "브랜드 전략 기획부터 실무 중심 마케팅 방향 설계까지, 기업의 브랜드 구축을 연구하고 운영합니다.",
+      desc: "브랜드 전략 기획부터 실무 중심 마케팅 방향 설계까지, 기업의 브랜딩 구조를 연구하고 운영합니다.",
     },
     {
       no: "02",
       title: "마마무 브랜드 아카데미 운영",
-      desc: "실전 중심 브랜드 교육과 1:1 브랜드·소상공인을 위한 브랜딩 교육 프로그램을 운영합니다.",
+      desc: "실전 중심 브랜드 교육과 1인 브랜드·소상공인을 위한 브랜딩 교육 프로그램을 운영합니다.",
     },
     {
       no: "03",
@@ -61,7 +66,10 @@ export const DEFAULT_CONTENT: SiteContent = {
       desc: "기업 및 브랜드를 대상으로 브랜드 방향성, 마케팅 전략, 실무 기반 브랜딩 강연을 진행합니다.",
     },
   ],
-  mediaArchive: [],
+  mediaArchive: Array.from({ length: 12 }, (_, i) => ({
+    image: `/assets/media/archive-${String(i + 1).padStart(2, "0")}.jpg`,
+    link: "",
+  })),
   about: {
     subtitle: "한국브랜드마케팅연구소 대표 · 연세대 브랜드전문가과정 前 책임교수",
     paragraphs: [
@@ -70,7 +78,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       "브랜드 네이밍, 브랜드 전략, 스토리 설계까지\n25년간 다양한 프로젝트를 통해 브랜드의 방향을 고민해왔습니다.",
       "현재는 한국브랜드마케팅연구소 대표로 활동하며\n브랜드 컨설팅과 강연, 브랜드 아카데미를 운영하고 있습니다.",
     ],
-    image: null,
+    image: "/assets/about.jpg",
   },
   contact: {
     paragraphs: [
@@ -99,6 +107,6 @@ export const DEFAULT_ACTIVITIES: Activity[] = Array.from({ length: 9 }, (_, i) =
   title: "마마무 브랜드 아카데미 현장 스케치",
   excerpt: DEFAULT_EXCERPT,
   body: DEFAULT_EXCERPT,
-  thumbnail: null,
+  thumbnail: `/assets/media/archive-${String(((i + 3) % 12) + 1).padStart(2, "0")}.jpg`,
   sort_order: i,
 }));

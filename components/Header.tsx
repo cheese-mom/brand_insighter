@@ -15,7 +15,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-ink bg-paper/95 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 md:px-8">
+      <div className="mx-auto flex max-w-[1280px] items-center justify-between px-5 py-3.5 md:px-[50px] md:py-[15px]">
         <Link href="/" className="block" aria-label={`${HEADER.name} 홈`}>
           <Image
             src="/logo.png"
@@ -23,17 +23,17 @@ export default function Header() {
             width={368}
             height={185}
             priority
-            className="h-10 w-auto"
+            className="h-10 w-auto md:h-[66px]"
           />
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-10 md:flex">
+        <nav className="hidden w-[500px] items-center justify-between md:flex">
           {NAV.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`text-sm transition-colors hover:text-ink ${
+              className={`font-display text-[15px] transition-colors hover:text-ink ${
                 isActive(item.href)
                   ? "font-semibold text-ink"
                   : "text-muted"

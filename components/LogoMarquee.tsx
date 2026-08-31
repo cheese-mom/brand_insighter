@@ -5,15 +5,23 @@ export default function LogoMarquee() {
   const items = [...BRANDS, ...BRANDS];
 
   return (
-    <div className="marquee-track overflow-hidden border-y border-line py-6">
-      <div className="animate-marquee flex w-max items-center gap-12 md:gap-16">
+    <div className="marquee-track overflow-hidden">
+      <div className="animate-marquee flex w-max items-center gap-[15px] pr-[15px]">
         {items.map((brand, i) => (
-          <span
+          <div
             key={i}
-            className="flex h-8 shrink-0 items-center whitespace-nowrap text-lg font-bold italic tracking-tight text-neutral-400 md:text-xl"
+            className="relative flex h-[118px] w-[118px] shrink-0 items-center justify-center bg-white p-3 sm:h-[150px] sm:w-[150px] sm:p-4"
           >
-            {brand}
-          </span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={brand.image}
+              alt={brand.name}
+              className="max-h-[58%] max-w-full object-contain"
+            />
+            <span className="absolute inset-x-1 bottom-2 text-center text-[9px] tracking-[-0.03em] text-ink sm:text-[11px]">
+              {brand.label}
+            </span>
+          </div>
         ))}
       </div>
     </div>

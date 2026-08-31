@@ -28,8 +28,8 @@ export default function MediaArchive({ items }: { items: MediaItem[] }) {
 
   return (
     <>
-      <div className="grid grid-cols-3 gap-3">
-        {(items.length > 0 ? items : Array.from({ length: 6 }, () => null)).map(
+      <div className="grid grid-cols-3 gap-0.5">
+        {items.map(
           (item, i) => {
             const cell = (
               <div className="aspect-[9/16] overflow-hidden bg-placeholder">

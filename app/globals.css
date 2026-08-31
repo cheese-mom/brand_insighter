@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Jalnan Gothic";
+  src: url("/fonts/jalnan-gothic.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
 @theme {
   /* Colors — monochrome palette (screenshot-derived) */
   --color-paper: #ffffff;
@@ -12,7 +20,7 @@
 
   /* Fonts */
   --font-sans: "Pretendard Variable", "Pretendard", system-ui, sans-serif;
-  --font-display: var(--font-archivo), "Archivo", system-ui, sans-serif;
+  --font-display: "Jalnan Gothic", "Pretendard Variable", sans-serif;
 }
 
 html {
@@ -23,6 +31,7 @@ body {
   background: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-sans);
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
 }
 
