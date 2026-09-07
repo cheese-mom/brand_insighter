@@ -11,7 +11,7 @@ const HELP_OPTIONS = [
   "기타 문의",
 ];
 
-export default function ContactForm() {
+export default function ContactForm({ defaultHelp = "" }: { defaultHelp?: string }) {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -85,7 +85,7 @@ export default function ContactForm() {
         <select
           id="help"
           name="help"
-          defaultValue=""
+          defaultValue={defaultHelp}
           required
           className={`${fieldBase} appearance-none bg-[length:14px] bg-[right_center] bg-no-repeat pr-6`}
           style={{

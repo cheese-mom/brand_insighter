@@ -46,6 +46,7 @@ export async function GET() {
     "",
     "## 페이지",
     "",
+    `- [마마무 브랜드 아카데미](${site}/academy): 브랜드 교육 철학, 커리큘럼, 교육 대상 및 과정 문의`,
     `- [Home](${site}/): 소개, 프로젝트 지표, 주요 활동`,
     `- [About](${site}/about): 상세 소개`,
     `- [Activity](${site}/activity): 강연·컨설팅·아카데미 활동 기록`,

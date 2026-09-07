@@ -19,7 +19,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function ContactPage() {
+export default async function ContactPage({ searchParams }: { searchParams: Promise<{ help?: string }> }) {
+  const { help } = await searchParams;
   const { contact } = await getSiteContent();
 
   return (
@@ -32,7 +33,7 @@ export default async function ContactPage() {
               Contact
             </h1>
             <div className="mt-12">
-              <ContactForm />
+              <ContactForm key={help === "academy" ? "academy" : "general"} defaultHelp={help === "academy" ? "브랜드 아카데미" : ""} />
             </div>
           </div>
 

@@ -4,6 +4,7 @@ import type { SiteContent, Activity } from "./types";
 export const NAV = [
   { label: "Home", href: "/" },
   { label: "Activity", href: "/activity" },
+  { label: "Academy", href: "/academy" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];

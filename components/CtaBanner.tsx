@@ -32,7 +32,7 @@ export default function CtaBanner({ variant = "image" }: Props) {
         {withImage && (
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Link
-              href="/about"
+              href="/academy"
               className="border border-ink bg-paper px-6 py-2.5 text-sm text-ink transition-colors hover:bg-ink hover:text-paper"
             >
               아카데미 알아보기
