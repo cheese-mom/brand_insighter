@@ -11,12 +11,18 @@ import {
 import type { Activity } from "@/lib/types";
 import ImageUploader from "./ImageUploader";
 import ActivityCard from "@/components/ActivityCard";
+import { ACTIVITY_CATEGORIES } from "@/lib/activity-categories";
 
 export default function ActivityForm({ activity }: { activity?: Activity }) {
   const router = useRouter();
   const isEdit = Boolean(activity);
 
   const [form, setForm] = useState<ActivityInput>({
+    status: activity?.status ?? "draft",
+    category: activity?.category ?? ACTIVITY_CATEGORIES[0],
+    geo_questions: activity?.geo_questions ?? "",
+    content_outline: activity?.content_outline ?? "",
+    editorial_notes: activity?.editorial_notes ?? "",
     date: activity?.date ?? "",
     title: activity?.title ?? "",
     excerpt: activity?.excerpt ?? "",
@@ -82,6 +88,25 @@ export default function ActivityForm({ activity }: { activity?: Activity }) {
         {isEdit ? "활동 수정" : "새 활동"}
       </h1>
 
+      <div className="grid gap-4 sm:grid-cols-2">
+        <label className="block text-sm">발행 상태
+          <select className="mt-2 w-full border border-line p-3" value={form.status} onChange={(e) => update({ status: e.target.value as "draft" | "published" })}>
+            <option value="draft">발행대기 (비공개)</option>
+            <option value="published">발행 (공개)</option>
+          </select>
+        </label>
+        <label className="block text-sm">카테고리
+          <select className="mt-2 w-full border border-line p-3" value={form.category} onChange={(e) => update({ category: e.target.value })}>
+            {ACTIVITY_CATEGORIES.map((c) => <option key={c}>{c}</option>)}
+          </select>
+        </label>
+      </div>
+      <p className="text-sm text-muted">발행대기 글은 공개 사이트에 표시되지 않습니다. 원고를 완성한 뒤 상태를 ‘발행’으로 변경하고 저장하세요.</p>
+      {([ ["geo_questions", "GEO 목표 질문"], ["content_outline", "본문 내용 기획"], ["editorial_notes", "발행 전 확인 사항"] ] as const).map(([key, label]) => (
+        <label key={key} className="block text-sm font-medium">{label}
+          <textarea className="mt-2 w-full border border-line bg-neutral-50 p-3 font-normal" rows={3} value={form[key]} onChange={(e) => update({ [key]: e.target.value })} />
+        </label>
+      ))}
       <label className="block">
         <span className="mb-1.5 block text-sm font-medium text-ink">날짜 (표시용)</span>
         <input
@@ -150,7 +175,7 @@ export default function ActivityForm({ activity }: { activity?: Activity }) {
           disabled={status !== "idle"}
           className="border border-ink bg-ink px-8 py-2.5 text-sm text-paper transition-opacity hover:opacity-85 disabled:opacity-50"
         >
-          {status === "saving" ? "저장 중…" : "저장"}
+          {status === "saving" ? "저장 중…" : form.status === "published" ? "공개 상태로 저장" : "발행대기 저장"}
         </button>
         <button
           type="button"

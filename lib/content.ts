@@ -73,6 +73,7 @@ export async function getActivities(): Promise<Activity[]> {
     const { data, error } = await readClient()
       .from("activities")
       .select("*")
+      .eq("status", "published")
       .order("sort_order", { ascending: true })
       .order("created_at", { ascending: false });
     if (error) throw error;
@@ -93,6 +94,7 @@ export async function getActivity(id: string): Promise<Activity | null> {
       .from("activities")
       .select("*")
       .eq("id", id)
+      .eq("status", "published")
       .maybeSingle();
     if (error) throw error;
     return (data as Activity) ?? null;

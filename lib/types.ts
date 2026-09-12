@@ -50,6 +50,11 @@ export type SiteContent = {
 };
 
 export type Activity = {
+  status?: "draft" | "published";
+  category?: string;
+  geo_questions?: string;
+  content_outline?: string;
+  editorial_notes?: string;
   id: string;
   date: string; // 표시용 (예: 2026.05.24)
   title: string;

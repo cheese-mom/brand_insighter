@@ -19,6 +19,11 @@ create table if not exists public.activities (
   body text not null default '',
   thumbnail text,
   sort_order int not null default 0,
+  status text not null default 'draft' check (status in ('draft', 'published')),
+  category text not null default '브랜드 인사이트',
+  geo_questions text not null default '',
+  content_outline text not null default '',
+  editorial_notes text not null default '',
   created_at timestamptz not null default now()
 );
 
@@ -41,7 +46,7 @@ create policy "site_content write" on public.site_content
 -- activities
 drop policy if exists "activities read" on public.activities;
 create policy "activities read" on public.activities
-  for select using (true);
+  for select to anon, authenticated using (status = 'published');
 
 drop policy if exists "activities write" on public.activities;
 create policy "activities write" on public.activities
