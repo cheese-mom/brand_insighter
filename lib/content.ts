@@ -28,15 +28,25 @@ function normalizeMedia(raw: unknown): MediaItem[] | null {
     .filter((m) => m.image);
 }
 
+// 구버전(About 페이지) 저장 데이터 — 인물 사진만 Philosophy 페이지로 이어받는다
+type LegacyAbout = { about?: { image?: string | null } };
+
 // 저장된 데이터에 누락 섹션이 있어도 기본값으로 보강
 function mergeContent(data: Partial<SiteContent> | null): SiteContent {
   if (!data) return DEFAULT_CONTENT;
+
+  const philosophy = { ...DEFAULT_CONTENT.philosophy, ...data.philosophy };
+  const legacyImage = (data as LegacyAbout).about?.image;
+  if (data.philosophy?.image === undefined && legacyImage) {
+    philosophy.image = legacyImage;
+  }
+
   return {
     hero: { ...DEFAULT_CONTENT.hero, ...data.hero },
     stats: data.stats ?? DEFAULT_CONTENT.stats,
     currentActivities: data.currentActivities ?? DEFAULT_CONTENT.currentActivities,
     mediaArchive: normalizeMedia(data.mediaArchive) ?? DEFAULT_CONTENT.mediaArchive,
-    about: { ...DEFAULT_CONTENT.about, ...data.about },
+    philosophy,
     contact: { ...DEFAULT_CONTENT.contact, ...data.contact },
     footer: { ...DEFAULT_CONTENT.footer, ...data.footer },
   };

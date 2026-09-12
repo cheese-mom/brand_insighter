@@ -5,7 +5,7 @@ export const NAV = [
   { label: "Home", href: "/" },
   { label: "Activity", href: "/activity" },
   { label: "Academy", href: "/academy" },
-  { label: "About", href: "/about" },
+  { label: "Philosophy", href: "/philosophy" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -71,14 +71,44 @@ export const DEFAULT_CONTENT: SiteContent = {
     image: `/assets/media/archive-${String(i + 1).padStart(2, "0")}.jpg`,
     link: "",
   })),
-  about: {
-    subtitle: "한국브랜드마케팅연구소 대표 · 연세대 브랜드전문가과정 前 책임교수",
-    paragraphs: [
-      "좋은 브랜드는 설명보다 먼저 감각으로 기억됩니다.",
-      "무엇을 말하는가보다 어떤 인상을 남기는가가 중요해진 시대 속에서,\n브랜드는 단순한 마케팅이 아니라 사람의 기억을 설계하는 작업이라고 믿고 있습니다.",
-      "브랜드 네이밍, 브랜드 전략, 스토리 설계까지\n25년간 다양한 프로젝트를 통해 브랜드의 방향을 고민해왔습니다.",
-      "현재는 한국브랜드마케팅연구소 대표로 활동하며\n브랜드 컨설팅과 강연, 브랜드 아카데미를 운영하고 있습니다.",
+  philosophy: {
+    label: "BRAND PHILOSOPHY 5",
+    intro: "박재현이 생각하는 브랜드의 다섯 가지 원칙",
+    principles: [
+      {
+        no: "01",
+        title: "Branding is Be.",
+        lead: "브랜딩은 ‘하는 것(Do)’이 아니라 ‘되는 것(Be)’입니다.",
+        body: "마케팅이 고객에게 무엇을 알리고 행동하게 만드는 일이라면, 브랜딩은 고객의 마음속에 어떤 존재가 될 것인가를 만드는 일입니다. 좋은 브랜드는 끊임없이 자신을 설명하지 않아도 고객이 먼저 떠올리고 선택합니다.",
+      },
+      {
+        no: "02",
+        title: "Branding is Relationship.",
+        lead: "브랜딩은 고객과 관계를 만들어가는 일입니다.",
+        body: "브랜드와 고객의 관계는 연애와 닮았습니다. 처음에는 관심을 끌어야 하지만, 결국 중요한 것은 지속적인 신뢰와 애정입니다. 고객의 삶 속으로 들어가 관계를 쌓을 때 고객(Customer)은 팬(Fan)이 됩니다.",
+      },
+      {
+        no: "03",
+        title: "Branding is Experience.",
+        lead: "브랜드는 말하는 것이 아니라 경험하게 하는 것입니다.",
+        body: "고객은 기업이 말한 것을 모두 기억하지 않습니다. 하지만 브랜드를 통해 느낀 경험은 오래 기억합니다. 제품, 공간, 서비스, 콘텐츠, 사람과의 모든 접점에서 ‘그 브랜드다운 경험’을 만드는 것, 그것이 브랜딩입니다.",
+      },
+      {
+        no: "04",
+        title: "Branding is Differentiation.",
+        lead: "브랜딩은 더 좋아지는 경쟁이 아니라, 달라지는 경쟁입니다.",
+        body: "경쟁자보다 조금 더 좋은 제품을 만드는 것만으로는 오래 살아남기 어렵습니다. 브랜드는 ‘왜 우리여야 하는가?’라는 질문에 분명한 답을 가지고 있어야 합니다. 최고(Better)가 아니라 유일함(Different)을 만드는 것, 그것이 브랜드의 경쟁력입니다.",
+      },
+      {
+        no: "05",
+        title: "Branding is Survival.",
+        lead: "결국 브랜딩의 목적은 생존입니다.",
+        body: "트렌드는 변하고 기술은 발전하며 경쟁자는 계속 등장합니다. 그럼에도 고객에게 선택받고 다시 선택받는 브랜드만이 살아남습니다. 브랜딩은 멋있어 보이기 위한 장식이 아니라 시장에서 끝까지 살아남기 위한 기업의 생존 전략입니다.",
+      },
     ],
+    flow: ["Be", "Relationship", "Experience", "Differentiation", "Survival"],
+    closing:
+      "‘어떤 브랜드가 될 것인가를 정하고,\n고객과 관계를 만들고,\n차별화된 경험을 제공할 때,\n브랜드는 결국 살아남습니다.’",
     image: "/assets/about.jpg",
   },
   contact: {

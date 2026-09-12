@@ -10,7 +10,7 @@ export default async function AdminDashboard() {
     {
       href: "/admin/content",
       title: "콘텐츠 편집",
-      desc: "히어로·About·Contact 문구, 통계 수치, 푸터 연락처, 이미지를 편집합니다.",
+      desc: "히어로·Philosophy·Contact 문구, 통계 수치, 푸터 연락처, 이미지를 편집합니다.",
     },
     {
       href: "/admin/activities",

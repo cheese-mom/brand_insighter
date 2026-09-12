@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 type Props = {
-  /** plain: 배경 없이 텍스트만 (Contact). image: 배경 이미지 + 버튼 (Home/About/Activity) */
+  /** plain: 배경 없이 텍스트만 (Contact). image: 배경 이미지 + 버튼 (Home/Philosophy/Activity) */
   variant?: "image" | "plain";
 };
 

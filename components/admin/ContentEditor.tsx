@@ -9,7 +9,7 @@ import ImageUploader from "./ImageUploader";
 
 const PREVIEW_PAGES = [
   { label: "Home", path: "/" },
-  { label: "About", path: "/about" },
+  { label: "Philosophy", path: "/philosophy" },
   { label: "Contact", path: "/contact" },
 ] as const;
 
@@ -554,25 +554,134 @@ export default function ContentEditor({ initial }: { initial: SiteContent }) {
         />
       </Section>
 
-      {/* About */}
-      <Section title="About 페이지">
+      {/* Philosophy */}
+      <Section title="Philosophy 페이지">
         <Field
-          label="서브타이틀"
-          value={c.about.subtitle}
-          onChange={(v) => setC({ ...c, about: { ...c.about, subtitle: v } })}
+          label="소제목 (영문 라벨)"
+          value={c.philosophy.label}
+          onChange={(v) =>
+            setC({ ...c, philosophy: { ...c.philosophy, label: v } })
+          }
         />
+        <Field
+          label="한 줄 소개"
+          value={c.philosophy.intro}
+          onChange={(v) =>
+            setC({ ...c, philosophy: { ...c.philosophy, intro: v } })
+          }
+        />
+        <div>
+          <span className="mb-2 block text-sm font-medium text-ink">원칙</span>
+          <div className="space-y-6">
+            {c.philosophy.principles.map((p, i) => {
+              const update = (patch: Partial<typeof p>) =>
+                setC({
+                  ...c,
+                  philosophy: {
+                    ...c.philosophy,
+                    principles: c.philosophy.principles.map((it, idx) =>
+                      idx === i ? { ...it, ...patch } : it,
+                    ),
+                  },
+                });
+              return (
+                <div key={i} className="border border-line p-4">
+                  <div className="flex gap-3">
+                    <div className="w-20">
+                      <Field
+                        label="번호"
+                        value={p.no}
+                        onChange={(no) => update({ no })}
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <Field
+                        label="제목 (영문)"
+                        value={p.title}
+                        onChange={(title) => update({ title })}
+                      />
+                    </div>
+                  </div>
+                  <div className="mt-3">
+                    <Field
+                      label="한 줄 요약 (굵게 표시)"
+                      value={p.lead}
+                      onChange={(lead) => update({ lead })}
+                    />
+                  </div>
+                  <div className="mt-3">
+                    <Area
+                      label="설명"
+                      value={p.body}
+                      onChange={(body) => update({ body })}
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setC({
+                        ...c,
+                        philosophy: {
+                          ...c.philosophy,
+                          principles: c.philosophy.principles.filter(
+                            (_, idx) => idx !== i,
+                          ),
+                        },
+                      })
+                    }
+                    className="mt-3 text-sm text-muted hover:text-red-600"
+                  >
+                    원칙 삭제
+                  </button>
+                </div>
+              );
+            })}
+            <button
+              type="button"
+              onClick={() =>
+                setC({
+                  ...c,
+                  philosophy: {
+                    ...c.philosophy,
+                    principles: [
+                      ...c.philosophy.principles,
+                      {
+                        no: String(c.philosophy.principles.length + 1).padStart(2, "0"),
+                        title: "",
+                        lead: "",
+                        body: "",
+                      },
+                    ],
+                  },
+                })
+              }
+              className="text-sm text-muted underline hover:text-ink"
+            >
+              + 원칙 추가
+            </button>
+          </div>
+        </div>
         <StringList
-          label="본문 문단"
-          items={c.about.paragraphs}
-          onChange={(paragraphs) => setC({ ...c, about: { ...c.about, paragraphs } })}
-          area
-          addLabel="문단 추가"
+          label="흐름 (단계별, 화살표로 연결되어 표시됨)"
+          items={c.philosophy.flow}
+          onChange={(flow) => setC({ ...c, philosophy: { ...c.philosophy, flow } })}
+          addLabel="단계 추가"
+        />
+        <Area
+          label="마무리 인용문"
+          value={c.philosophy.closing}
+          onChange={(v) =>
+            setC({ ...c, philosophy: { ...c.philosophy, closing: v } })
+          }
+          hint="줄바꿈은 입력한 그대로 표시됩니다."
         />
         <ImageUploader
           label="인물 사진"
           aspect="aspect-[3/4]"
-          value={c.about.image}
-          onChange={(image) => setC({ ...c, about: { ...c.about, image } })}
+          value={c.philosophy.image}
+          onChange={(image) =>
+            setC({ ...c, philosophy: { ...c.philosophy, image } })
+          }
         />
       </Section>
 

@@ -4,6 +4,14 @@ export type Stat = { value: string; label: string };
 
 export type CurrentActivity = { no: string; title: string; desc: string };
 
+// Philosophy 페이지의 원칙 하나 (예: ① Branding is Be.)
+export type Principle = {
+  no: string; // 표시 번호 (01, 02…)
+  title: string; // 영문 제목 (Branding is Be.)
+  lead: string; // 한 줄 요약 (굵게 표시)
+  body: string; // 본문 설명
+};
+
 // Media & Archive 갤러리 항목 (이미지 + 클릭 시 이동할 링크)
 // embed: false — 인스타그램이 임베드를 차단한 게시물. 팝업 대신 새 탭으로 연다.
 export type MediaItem = { image: string; link: string; embed?: boolean };
@@ -19,9 +27,12 @@ export type SiteContent = {
   stats: Stat[];
   currentActivities: CurrentActivity[];
   mediaArchive: MediaItem[]; // 갤러리 이미지(+클릭 링크) 목록
-  about: {
-    subtitle: string;
-    paragraphs: string[];
+  philosophy: {
+    label: string; // 상단 소제목 (BRAND PHILOSOPHY 5)
+    intro: string; // 한 줄 소개 (박재현이 생각하는 브랜드의 다섯 가지 원칙)
+    principles: Principle[];
+    flow: string[]; // 원칙 흐름 (Be → Relationship → …) — 단계별 문자열
+    closing: string; // 마무리 인용문 (줄바꿈 유지)
     image: string | null; // 인물 사진 URL
   };
   contact: {

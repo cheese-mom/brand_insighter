@@ -2,15 +2,15 @@ import LogoMarquee from "@/components/LogoMarquee";
 import CtaBanner from "@/components/CtaBanner";
 import MediaArchive from "@/components/MediaArchive";
 import { getSiteContent } from "@/lib/content";
-import { DEFAULT_CONTENT } from "@/lib/defaults";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const { hero, currentActivities, mediaArchive } = await getSiteContent();
+  // stats는 어드민 "Project 통계"에서 편집한 값을 그대로 사용한다 (기본값 고정 금지)
+  const { hero, stats: projectStats, currentActivities, mediaArchive } =
+    await getSiteContent();
   // 사용자가 확정한 메인 비주얼. 기존 Supabase 값보다 이 로컬 원본을 우선한다.
   const heroImage = "/assets/hero.jpg";
-  const projectStats = DEFAULT_CONTENT.stats;
   const archiveItems = mediaArchive.filter((item) => item.link.trim().length > 0);
   const mobileHeroLines = [
     "대한민국",
