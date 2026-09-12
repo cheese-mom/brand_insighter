@@ -44,6 +44,12 @@ export default function RootLayout({
     <html lang="ko" className="antialiased">
       <head>
         <link
+          rel="alternate"
+          type="application/rss+xml"
+          title={`${SITE_NAME} RSS`}
+          href="/rss.xml"
+        />
+        <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"
         />

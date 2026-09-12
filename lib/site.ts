@@ -2,13 +2,11 @@
 // 커스텀 도메인 확정 시 NEXT_PUBLIC_SITE_URL만 설정하면 전체에 반영된다.
 
 export function getSiteUrl(): URL {
-  // VERCEL_URL은 배포별 내부 도메인이라 sitemap/canonical에 부적합 —
-  // 프로덕션 도메인(VERCEL_PROJECT_PRODUCTION_URL)을 우선한다.
-  const vercelHost =
-    process.env.VERCEL_PROJECT_PRODUCTION_URL ?? process.env.VERCEL_URL;
   const url =
     process.env.NEXT_PUBLIC_SITE_URL ??
-    (vercelHost ? `https://${vercelHost}` : "http://localhost:3000");
+    (process.env.NODE_ENV === "production"
+      ? "https://www.brandinsighter.kr"
+      : "http://localhost:3000");
   return new URL(url);
 }
 
