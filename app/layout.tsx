@@ -10,6 +10,13 @@ export const metadata: Metadata = {
   },
   description: SITE_DESCRIPTION,
   alternates: { canonical: "/" },
+  verification: {
+    google: "lXy37mjnxVgndrjeXeq3-3xSwZmq3rB64bIIBqkfwDo",
+    other: {
+      "naver-site-verification":
+        "a45e1ee7b60d8f11a3bf27ec5d5d304f9ca57e28",
+    },
+  },
   openGraph: {
     title: SITE_TITLE,
     description:
