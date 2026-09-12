@@ -33,29 +33,43 @@ export default async function PhilosophyPage() {
     <div className="[word-break:keep-all] [overflow-wrap:anywhere]">
       <BreadcrumbJsonLd items={[{ name: "Philosophy", path: "/philosophy" }]} />
 
-      {/* 상단: 제목 + 소개 / 인물 사진 */}
+      {/* 상단: 제목 아래 사진과 철학 소개 */}
       <section className="mx-auto max-w-[1280px] px-5 py-16 md:px-[50px] md:py-24">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:items-center md:gap-14">
-          <div>
-            <h1 className="font-display text-5xl font-black tracking-tight md:text-6xl">
-              Philosophy
-            </h1>
-            <p className="mt-8 text-[11px] font-semibold tracking-[0.2em] text-muted">
-              {philosophy.label}
-            </p>
-            <p className="mt-4 text-[22px] font-bold leading-[1.5] tracking-[-0.03em] text-ink md:text-[28px]">
-              {philosophy.intro}
-            </p>
-          </div>
+        <h1 className="border-b border-ink pb-8 font-display text-5xl font-black tracking-tight md:pb-10 md:text-6xl">
+          Philosophy
+        </h1>
 
-          {/* 인물 사진 */}
-          <div className="aspect-[3/4] w-full overflow-hidden bg-placeholder md:max-w-md md:justify-self-end">
+        <div className="mt-8 grid grid-cols-1 gap-10 md:mt-12 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] md:items-center md:gap-16">
+          <div className="aspect-[3/4] w-full max-w-md overflow-hidden bg-placeholder">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={image}
               alt="박재현 브랜드 전문가"
               className="h-full w-full object-cover"
             />
+          </div>
+
+          <div>
+            <p className="text-[11px] font-semibold tracking-[0.2em] text-muted">
+              {philosophy.label}
+            </p>
+            <p className="mt-5 max-w-[480px] text-[26px] font-bold leading-[1.5] tracking-[-0.03em] text-ink md:text-[36px]">
+              박재현이 생각하는
+              <br />
+              브랜드의 다섯 가지 원칙
+            </p>
+            {philosophy.flow.length > 0 && (
+              <ul className="mt-8 flex flex-col gap-3 border-t border-line pt-6 font-display text-[17px] tracking-[-0.02em] text-muted md:mt-12 md:text-[20px]">
+                {philosophy.flow.map((step, i) => (
+                  <li key={i} className="inline-flex items-baseline gap-2">
+                    <span className="font-sans text-[10px] tracking-normal text-faint">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    {step}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
       </section>
