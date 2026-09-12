@@ -10,7 +10,7 @@ export async function GET() {
     getSiteContent(),
     getActivities(),
   ]);
-  const { hero, stats, currentActivities, about, footer } = content;
+  const { hero, stats, currentActivities, philosophy, footer } = content;
   const site = getSiteUrl().toString().replace(/\/$/, "");
 
   const lines: string[] = [
@@ -20,7 +20,19 @@ export async function GET() {
     "",
     "## 소개",
     "",
-    ...about.paragraphs.map((p) => p.replaceAll("\n", " ")),
+    ...hero.paragraphs.map((p) => p.replaceAll("\n", " ")),
+    "",
+    `## 브랜드 철학 (${philosophy.label})`,
+    "",
+    philosophy.intro,
+    "",
+    ...philosophy.principles.map(
+      (p) => `- ${p.title} ${p.lead} ${p.body.replaceAll("\n", " ")}`,
+    ),
+    "",
+    philosophy.flow.join(" → "),
+    "",
+    philosophy.closing.replaceAll("\n", " "),
     "",
     "## 핵심 지표",
     "",
@@ -48,7 +60,7 @@ export async function GET() {
     "",
     `- [마마무 브랜드 아카데미](${site}/academy): 브랜드 교육 철학, 커리큘럼, 교육 대상 및 과정 문의`,
     `- [Home](${site}/): 소개, 프로젝트 지표, 주요 활동`,
-    `- [About](${site}/about): 상세 소개`,
+    `- [Philosophy](${site}/philosophy): 브랜드의 다섯 가지 원칙 (BRAND PHILOSOPHY 5)`,
     `- [Activity](${site}/activity): 강연·컨설팅·아카데미 활동 기록`,
     `- [Contact](${site}/contact): 브랜드 컨설팅·강연·아카데미 문의`,
   ];

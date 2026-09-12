@@ -48,12 +48,12 @@
 | `/` | Home | 히어로 → Project 통계 → 브랜드 로고 마퀴 → Current Activities → Media & Archive → CTA |
 | `/activity` | Activity | 제목 + 3×3 카드 그리드 + 페이지네이션 (카드 클릭 → 상세) |
 | `/activity/[id]` | Activity 상세 | 날짜 + 제목 + 썸네일 + 본문 + 목록으로 링크 (SEO/GEO용 개별 인덱싱) |
-| `/about` | About | 제목 + 좌 텍스트/우 흑백 인물 + Activity 미리보기 3장 |
+| `/philosophy` | Philosophy | 제목 + BRAND PHILOSOPHY 5 소개/우 흑백 인물 → 다섯 가지 원칙 목록 → 흐름·인용문(다크) → Activity 미리보기 3장. `/about`은 `/philosophy`로 영구 리다이렉트 |
 | `/contact` | Contact | 제목 + 문의 폼 + 우측 안내문 + 대형 "Let's Build Your Brand" |
 
 ### 공통 헤더
 - 좌측 로고: "브랜드 전문가"(작게) / **"박재현"**(굵게)
-- 우측 내비: Home · Activity · About · Contact
+- 우측 내비: Home · Activity · Academy · Philosophy · Contact
 - 하단 얇은 검정 보더
 
 ### 히어로 (Home)
@@ -95,7 +95,7 @@
 
 ### CTA 배너 "Let's Build Your Brand"
 - 대형 헤비 영문 + 버튼 2개: **아카데미 알아보기** / **문의하기**
-- Home/About/Activity: 배경 이미지(카메라 장비) 위 / Contact: 배경 없이 텍스트만
+- Home/Philosophy/Activity: 배경 이미지(카메라 장비) 위 / Contact: 배경 없이 텍스트만
 
 ### Contact 폼
 - 필드: 성함*, 회사명*, 이메일*, "필요하신 도움을 알려주세요"(드롭다운),
@@ -136,7 +136,7 @@ app/
     layout.tsx            # Header + main + Footer
     page.tsx              # Home
     activity/page.tsx     # Activity 목록
-    about/page.tsx        # About
+    philosophy/page.tsx   # Philosophy (브랜드 다섯 가지 원칙)
     contact/page.tsx      # Contact
   admin/                  # 어드민 (공개 chrome 없음)
     layout.tsx            # Supabase 설정 여부 게이트(미설정 시 안내)
@@ -214,7 +214,7 @@ npm start       # 빌드 결과 실행
 
 ## 11. 어드민 / Supabase 설정
 
-- **편집 범위**: 텍스트 워딩(히어로·About·Contact·통계·푸터) + 이미지 업로드 + Activity 게시글 CRUD.
+- **편집 범위**: 텍스트 워딩(히어로·Philosophy·Contact·통계·푸터) + 이미지 업로드 + Activity 게시글 CRUD.
 - **인증**: Supabase Auth(이메일/비밀번호). 공개 회원가입 없음 — 대시보드에서 계정 직접 생성.
   `proxy.ts`가 `/admin`(로그인 제외)을 미인증 시 `/admin/login`으로 리다이렉트.
 - **데이터 모델**: `site_content`(싱글톤 `id='main'`, JSONB), `activities` 테이블, Storage 버킷 `media`.
