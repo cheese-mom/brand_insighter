@@ -38,16 +38,28 @@ export async function saveContent(content: SiteContent): Promise<Result> {
 
 export type ActivityInput = Omit<Activity, "id" | "created_at">;
 
+function activityPayload(input: ActivityInput) {
+  const status = input.status ?? "draft";
+  if (!["draft", "published"].includes(status)) throw new Error("잘못된 상태");
+  if (!input.title.trim()) throw new Error("제목을 입력해 주세요.");
+  if (status === "published" && !input.body.trim()) throw new Error("발행하려면 본문을 작성해 주세요.");
+  return { title: input.title, date: input.date, excerpt: input.excerpt, body: input.body,
+    thumbnail: input.thumbnail, sort_order: input.sort_order, status,
+    category: input.category ?? "브랜드 인사이트", geo_questions: input.geo_questions ?? "",
+    content_outline: input.content_outline ?? "", editorial_notes: input.editorial_notes ?? "" };
+}
+
 export async function createActivity(input: ActivityInput): Promise<Result> {
   try {
     const supabase = await requireUser();
-    const { error } = await supabase.from("activities").insert(input);
+    const payload = activityPayload(input);
+    const { error } = await supabase.from("activities").insert(payload);
     if (error) return { ok: false, error: error.message };
     revalidatePublic();
     revalidatePath("/admin/activities");
     return { ok: true };
-  } catch {
-    return { ok: false, error: "저장에 실패했습니다." };
+  } catch (error) {
+    return { ok: false, error: error instanceof Error ? error.message : "저장에 실패했습니다." };
   }
 }
 
@@ -57,13 +69,14 @@ export async function updateActivity(
 ): Promise<Result> {
   try {
     const supabase = await requireUser();
-    const { error } = await supabase.from("activities").update(input).eq("id", id);
+    const payload = activityPayload(input);
+    const { error } = await supabase.from("activities").update(payload).eq("id", id);
     if (error) return { ok: false, error: error.message };
     revalidatePublic();
     revalidatePath("/admin/activities");
     return { ok: true };
-  } catch {
-    return { ok: false, error: "저장에 실패했습니다." };
+  } catch (error) {
+    return { ok: false, error: error instanceof Error ? error.message : "저장에 실패했습니다." };
   }
 }
 
