@@ -67,6 +67,13 @@ export const DEFAULT_CONTENT: SiteContent = {
       desc: "기업 및 브랜드를 대상으로 브랜드 방향성, 마케팅 전략, 실무 기반 브랜딩 강연을 진행합니다.",
     },
   ],
+  currentActivityVideos: [
+    {
+      title:
+        '“이름 하나가 시장을 바꾼다” 700개의 브랜드 네이밍의 비밀 | 마당밖김재원 Ep.7 (브랜드 인사이터 박재현)',
+      url: "https://youtu.be/3k5JwI4-wuc?si=KtJrjwk23-Z-P2E9",
+    },
+  ],
   mediaArchive: Array.from({ length: 12 }, (_, i) => ({
     image: `/assets/media/archive-${String(i + 1).padStart(2, "0")}.jpg`,
     link: "",

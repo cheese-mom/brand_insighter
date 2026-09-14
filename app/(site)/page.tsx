@@ -2,13 +2,20 @@ import LogoMarquee from "@/components/LogoMarquee";
 import CtaBanner from "@/components/CtaBanner";
 import MediaArchive from "@/components/MediaArchive";
 import { getSiteContent } from "@/lib/content";
+import { getYouTubeThumbnailUrl } from "@/lib/youtube";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
+  const content = await getSiteContent();
   // stats는 어드민 "Project 통계"에서 편집한 값을 그대로 사용한다 (기본값 고정 금지)
-  const { hero, stats: projectStats, currentActivities, mediaArchive } =
-    await getSiteContent();
+  const {
+    hero,
+    stats: projectStats,
+    currentActivities,
+    currentActivityVideos,
+    mediaArchive,
+  } = content;
   // 사용자가 확정한 메인 비주얼. 기존 Supabase 값보다 이 로컬 원본을 우선한다.
   const heroImage = "/assets/hero.jpg";
   const archiveItems = mediaArchive.filter((item) => item.link.trim().length > 0);
@@ -112,13 +119,11 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Current Activities */}
+      {/* Business */}
       <section className="mx-auto max-w-[1280px] px-5 py-20 md:px-[50px] md:py-[120px]">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-[300px_1fr] md:gap-16">
           <h2 className="font-display text-[32px] leading-[0.95] tracking-[-0.03em] md:text-[40px]">
-            Current
-            <br />
-            Activities
+            Business
           </h2>
           <div className="space-y-12 md:px-[50px]">
             {currentActivities.map((act, i) => (
@@ -150,6 +155,54 @@ export default async function Home() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Current Activities */}
+      <section className="border-t border-line py-20 md:py-[120px]">
+        <div className="mx-auto max-w-[1280px] px-5 md:px-[50px]">
+          <div>
+            <h2 className="font-display text-[32px] leading-[0.95] tracking-[-0.03em] md:text-[40px]">
+              Current
+              <br />
+              Activities
+            </h2>
+          </div>
+
+          {currentActivityVideos.length > 0 ? (
+            <div className="mt-12 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 md:mt-16 md:grid-cols-3">
+              {currentActivityVideos.map((video, index) => {
+                const thumbnail = getYouTubeThumbnailUrl(video.url);
+                return (
+                  <a
+                    key={`${video.url}-${index}`}
+                    href={video.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group block"
+                  >
+                    <div className="relative aspect-video overflow-hidden bg-placeholder">
+                      {thumbnail ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={thumbnail}
+                          alt={`${video.title} 유튜브 썸네일`}
+                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                        />
+                      ) : null}
+                    </div>
+                    <h3 className="mt-4 text-[17px] font-bold leading-[1.45] tracking-[-0.02em] text-ink md:text-[20px]">
+                      {video.title}
+                    </h3>
+                  </a>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="mt-12 text-sm text-muted">
+              아직 등록된 영상이 없습니다.
+            </p>
+          )}
         </div>
       </section>
 

@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { importReelFromUrl, saveContent } from "@/app/admin/actions";
 import type { SiteContent } from "@/lib/types";
+import { getYouTubeThumbnailUrl } from "@/lib/youtube";
 import ImageUploader from "./ImageUploader";
 
 /* ---------- 라이브 미리보기 패널 ---------- */
@@ -275,7 +276,6 @@ export default function ContentEditor({ initial }: { initial: SiteContent }) {
     try {
       frame.contentWindow?.location.reload();
     } catch {
-      // eslint-disable-next-line no-self-assign
       frame.src = frame.src;
     }
   };
@@ -393,8 +393,8 @@ export default function ContentEditor({ initial }: { initial: SiteContent }) {
         </div>
       </Section>
 
-      {/* Current Activities */}
-      <Section title="Current Activities">
+      {/* Business */}
+      <Section title="Business">
         <div className="space-y-6">
           {c.currentActivities.map((a, i) => (
             <div key={i} className="border border-line p-4">
@@ -472,6 +472,82 @@ export default function ContentEditor({ initial }: { initial: SiteContent }) {
             className="text-sm text-muted underline hover:text-ink"
           >
             + 활동 추가
+          </button>
+        </div>
+      </Section>
+
+      {/* Current Activities — Activity 게시글과 별도 관리 */}
+      <Section title="Current Activities (YouTube)">
+        <p className="text-xs text-muted">
+          홈에 노출할 유튜브 영상을 관리합니다. Activity 게시글과 연결되지 않으며,
+          URL을 입력하면 유튜브 썸네일이 자동으로 표시됩니다.
+        </p>
+        <div className="space-y-6">
+          {c.currentActivityVideos.map((video, i) => {
+            const thumbnail = getYouTubeThumbnailUrl(video.url);
+            const update = (patch: Partial<typeof video>) =>
+              setC({
+                ...c,
+                currentActivityVideos: c.currentActivityVideos.map((item, idx) =>
+                  idx === i ? { ...item, ...patch } : item,
+                ),
+              });
+
+            return (
+              <div key={i} className="border border-line p-4">
+                {thumbnail ? (
+                  <div className="mb-4 aspect-video max-w-sm overflow-hidden bg-placeholder">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={thumbnail}
+                      alt=""
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                ) : null}
+                <div className="space-y-3">
+                  <Field
+                    label="제목"
+                    value={video.title}
+                    onChange={(title) => update({ title })}
+                  />
+                  <Field
+                    label="YouTube URL"
+                    value={video.url}
+                    onChange={(url) => update({ url })}
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setC({
+                      ...c,
+                      currentActivityVideos: c.currentActivityVideos.filter(
+                        (_, idx) => idx !== i,
+                      ),
+                    })
+                  }
+                  className="mt-4 text-sm text-muted hover:text-red-600"
+                >
+                  영상 삭제
+                </button>
+              </div>
+            );
+          })}
+          <button
+            type="button"
+            onClick={() =>
+              setC({
+                ...c,
+                currentActivityVideos: [
+                  ...c.currentActivityVideos,
+                  { title: "", url: "" },
+                ],
+              })
+            }
+            className="text-sm text-muted underline hover:text-ink"
+          >
+            + 유튜브 영상 추가
           </button>
         </div>
       </Section>

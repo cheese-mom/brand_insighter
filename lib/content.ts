@@ -45,6 +45,8 @@ function mergeContent(data: Partial<SiteContent> | null): SiteContent {
     hero: { ...DEFAULT_CONTENT.hero, ...data.hero },
     stats: data.stats ?? DEFAULT_CONTENT.stats,
     currentActivities: data.currentActivities ?? DEFAULT_CONTENT.currentActivities,
+    currentActivityVideos:
+      data.currentActivityVideos ?? DEFAULT_CONTENT.currentActivityVideos,
     mediaArchive: normalizeMedia(data.mediaArchive) ?? DEFAULT_CONTENT.mediaArchive,
     philosophy,
     contact: { ...DEFAULT_CONTENT.contact, ...data.contact },

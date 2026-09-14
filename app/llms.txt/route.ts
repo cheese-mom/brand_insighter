@@ -38,7 +38,7 @@ export async function GET() {
     "",
     ...stats.map((s) => `- ${s.value} ${s.label}`),
     "",
-    "## 주요 활동",
+    "## Business",
     "",
     ...currentActivities.map((a) => `- ${a.title}: ${a.desc}`),
     "",

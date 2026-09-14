@@ -28,6 +28,7 @@ export default function ContactForm({ defaultHelp = "" }: { defaultHelp?: string
       email: String(data.get("email") ?? ""),
       help_type: String(data.get("help") ?? ""),
       message: String(data.get("message") ?? ""),
+      website: String(data.get("website") ?? ""),
     });
     setSubmitting(false);
     if (res.ok) {
@@ -48,7 +49,14 @@ export default function ContactForm({ defaultHelp = "" }: { defaultHelp?: string
           <label htmlFor="name" className="sr-only">
             성함
           </label>
-          <input id="name" name="name" required placeholder="성함 *" className={fieldBase} />
+          <input
+            id="name"
+            name="name"
+            required
+            maxLength={100}
+            placeholder="성함 *"
+            className={fieldBase}
+          />
         </div>
         <div>
           <label htmlFor="company" className="sr-only">
@@ -58,6 +66,7 @@ export default function ContactForm({ defaultHelp = "" }: { defaultHelp?: string
             id="company"
             name="company"
             required
+            maxLength={100}
             placeholder="회사명 *"
             className={fieldBase}
           />
@@ -73,6 +82,7 @@ export default function ContactForm({ defaultHelp = "" }: { defaultHelp?: string
           name="email"
           type="email"
           required
+          maxLength={254}
           placeholder="이메일 *"
           className={fieldBase}
         />
@@ -113,6 +123,7 @@ export default function ContactForm({ defaultHelp = "" }: { defaultHelp?: string
           name="message"
           required
           rows={5}
+          maxLength={5000}
           placeholder="문의를 자세히 설명해주세요."
           className="w-full border-b border-ink/80 bg-neutral-100 p-4 text-sm text-ink placeholder:text-muted focus:outline-none"
         />
@@ -126,6 +137,17 @@ export default function ContactForm({ defaultHelp = "" }: { defaultHelp?: string
         />
         [필수] 개인정보 보호정책에 동의합니다.
       </label>
+
+      <div className="sr-only" aria-hidden="true">
+        <label htmlFor="website">웹사이트</label>
+        <input
+          id="website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
 
       <div className="pt-2 text-center">
         <button

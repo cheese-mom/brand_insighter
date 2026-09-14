@@ -4,6 +4,9 @@ export type Stat = { value: string; label: string };
 
 export type CurrentActivity = { no: string; title: string; desc: string };
 
+// 홈 Current Activities에 노출하는 외부 영상 (Activity 게시글과 별도 관리)
+export type CurrentActivityVideo = { title: string; url: string };
+
 // Philosophy 페이지의 원칙 하나 (예: ① Branding is Be.)
 export type Principle = {
   no: string; // 표시 번호 (01, 02…)
@@ -26,6 +29,7 @@ export type SiteContent = {
   };
   stats: Stat[];
   currentActivities: CurrentActivity[];
+  currentActivityVideos: CurrentActivityVideo[];
   mediaArchive: MediaItem[]; // 갤러리 이미지(+클릭 링크) 목록
   philosophy: {
     label: string; // 상단 소제목 (BRAND PHILOSOPHY 5)
