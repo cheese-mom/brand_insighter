@@ -73,7 +73,12 @@ export const DEFAULT_CONTENT: SiteContent = {
         '“이름 하나가 시장을 바꾼다” 700개의 브랜드 네이밍의 비밀 | 마당밖김재원 Ep.7 (브랜드 인사이터 박재현)',
       url: "https://youtu.be/3k5JwI4-wuc?si=KtJrjwk23-Z-P2E9",
     },
+    {
+      title: "죽은 회사 살리는 마법의 브랜딩 | 마당밖김재원 Ep.10 (브랜드 인사이터 박재현 2탄)",
+      url: "https://youtu.be/z7U31wUeRos?si=txaP1OQ48QovNE45",
+    },
   ],
+  currentActivityVideosVersion: 2,
   mediaArchive: Array.from({ length: 12 }, (_, i) => ({
     image: `/assets/media/archive-${String(i + 1).padStart(2, "0")}.jpg`,
     link: "",

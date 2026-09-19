@@ -2,6 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import { SUPABASE_KEY, SUPABASE_URL, isSupabaseConfigured } from "./supabase/config";
 import { DEFAULT_ACTIVITIES, DEFAULT_CONTENT } from "./defaults";
 import type { Activity, MediaItem, SiteContent } from "./types";
+import { getYouTubeVideoId } from "./youtube";
 
 const CONTENT_ID = "main";
 
@@ -35,6 +36,15 @@ type LegacyAbout = { about?: { image?: string | null } };
 function mergeContent(data: Partial<SiteContent> | null): SiteContent {
   if (!data) return DEFAULT_CONTENT;
 
+  // 버전 1 저장 데이터에는 새 영상을 보강한다. 어드민에서 다시 저장한 뒤에는
+  // 버전 2 목록을 그대로 존중하므로 영상을 삭제해도 재등장하지 않는다.
+  const currentActivityVideos = data.currentActivityVideos ?? DEFAULT_CONTENT.currentActivityVideos;
+  const newVideo = DEFAULT_CONTENT.currentActivityVideos[1];
+  const videos = data.currentActivityVideosVersion === 2 ||
+    currentActivityVideos.some((video) => getYouTubeVideoId(video.url) === getYouTubeVideoId(newVideo.url))
+    ? currentActivityVideos
+    : [...currentActivityVideos, newVideo];
+
   const philosophy = { ...DEFAULT_CONTENT.philosophy, ...data.philosophy };
   const legacyImage = (data as LegacyAbout).about?.image;
   if (data.philosophy?.image === undefined && legacyImage) {
@@ -45,8 +55,8 @@ function mergeContent(data: Partial<SiteContent> | null): SiteContent {
     hero: { ...DEFAULT_CONTENT.hero, ...data.hero },
     stats: data.stats ?? DEFAULT_CONTENT.stats,
     currentActivities: data.currentActivities ?? DEFAULT_CONTENT.currentActivities,
-    currentActivityVideos:
-      data.currentActivityVideos ?? DEFAULT_CONTENT.currentActivityVideos,
+    currentActivityVideos: videos,
+    currentActivityVideosVersion: DEFAULT_CONTENT.currentActivityVideosVersion,
     mediaArchive: normalizeMedia(data.mediaArchive) ?? DEFAULT_CONTENT.mediaArchive,
     philosophy,
     contact: { ...DEFAULT_CONTENT.contact, ...data.contact },

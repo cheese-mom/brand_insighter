@@ -30,6 +30,7 @@ export type SiteContent = {
   stats: Stat[];
   currentActivities: CurrentActivity[];
   currentActivityVideos: CurrentActivityVideo[];
+  currentActivityVideosVersion: number; // 기존 저장 데이터에 새 기본 영상을 한 번만 보강
   mediaArchive: MediaItem[]; // 갤러리 이미지(+클릭 링크) 목록
   philosophy: {
     label: string; // 상단 소제목 (BRAND PHILOSOPHY 5)
