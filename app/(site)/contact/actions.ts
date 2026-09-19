@@ -35,7 +35,10 @@ async function sendContactNotification(
     (emailDomain
       ? `Brand Insighter <contact@${emailDomain}>`
       : undefined);
-  const to = process.env.CONTACT_NOTIFICATION_TO || "saintbrand@naver.com";
+  const to = (process.env.CONTACT_NOTIFICATION_TO || "saintbrand@naver.com")
+    .split(",")
+    .map((address) => address.trim())
+    .filter(Boolean);
 
   if (!apiKey || !from) {
     console.warn(
@@ -53,7 +56,7 @@ async function sendContactNotification(
     },
     body: JSON.stringify({
       from,
-      to: [to],
+      to,
       reply_to: input.email,
       subject: `[홈페이지 문의] ${singleLine(input.name)} · ${singleLine(input.help_type)}`,
       text: [
