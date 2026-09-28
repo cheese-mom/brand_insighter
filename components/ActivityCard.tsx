@@ -1,24 +1,27 @@
 import Link from "next/link";
 import type { Activity } from "@/lib/types";
 import { getActivityPath } from "@/lib/activity-url";
+import ActivityThumbnail from "./ActivityThumbnail";
 
 export default function ActivityCard({ item }: { item: Activity }) {
-  const fallbackIndex =
-    [...item.id].reduce((total, char) => total + char.charCodeAt(0), 0) % 12;
-  const thumbnail =
-    item.thumbnail ||
-    `/assets/media/archive-${String(fallbackIndex + 1).padStart(2, "0")}.jpg`;
-
   return (
     <article className="group">
       <Link href={getActivityPath(item)} className="block">
         <div className="aspect-[3/2] w-full overflow-hidden bg-placeholder">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={thumbnail}
-            alt={item.title}
-            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-          />
+          {item.thumbnail ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={item.thumbnail}
+              alt={item.title}
+              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+            />
+          ) : (
+            <ActivityThumbnail
+              title={item.title}
+              category={item.category}
+              className="transition-transform duration-300 group-hover:scale-[1.03]"
+            />
+          )}
         </div>
         <p className="mt-4 text-xs text-muted">{item.date}</p>
         <h3 className="mt-1 font-display text-base text-ink group-hover:underline">

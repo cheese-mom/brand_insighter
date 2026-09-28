@@ -84,6 +84,7 @@ export default function ActivityForm({ activity }: { activity?: Activity }) {
     body: form.body,
     thumbnail: form.thumbnail,
     sort_order: form.sort_order,
+    category: form.category,
   };
 
   return (
@@ -183,7 +184,7 @@ export default function ActivityForm({ activity }: { activity?: Activity }) {
 
       <ImageUploader
         label="썸네일"
-        aspect="aspect-[4/3]"
+        aspect="aspect-[3/2]"
         value={form.thumbnail}
         onChange={(thumbnail) => update({ thumbnail })}
       />

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import CtaBanner from "@/components/CtaBanner";
 import { ArticleJsonLd, BreadcrumbJsonLd, FaqJsonLd } from "@/components/JsonLd";
+import ActivityThumbnail from "@/components/ActivityThumbnail";
 import { getActivity } from "@/lib/content";
 import { getActivityPath } from "@/lib/activity-url";
 
@@ -89,16 +90,18 @@ export default async function ActivityDetailPage({ params }: Props) {
           {activity.title}
         </h1>
 
-        {activity.thumbnail && (
-          <div className="mt-10 aspect-[4/3] w-full overflow-hidden bg-placeholder">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+        <div className="mt-10 aspect-[3/2] w-full overflow-hidden bg-placeholder">
+          {activity.thumbnail ? (
+            // eslint-disable-next-line @next/next/no-img-element
             <img
               src={activity.thumbnail}
               alt={activity.title}
               className="h-full w-full object-cover"
             />
-          </div>
-        )}
+          ) : (
+            <ActivityThumbnail title={activity.title} category={activity.category} />
+          )}
+        </div>
 
         <div className="mt-10 space-y-5 text-sm leading-relaxed text-muted md:text-base">
           {paragraphs.map((p, i) => (
