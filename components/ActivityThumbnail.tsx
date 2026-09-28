@@ -38,7 +38,7 @@ export default function ActivityThumbnail({ title, category, className = "" }: P
         </div>
 
         <h2
-          className={`mt-[6.2cqi] w-[64%] break-keep font-display font-black leading-[1.13] tracking-[-0.045em] ${titleSize(title)}`}
+          className={`mt-[6.2cqi] w-[64%] break-keep font-display font-black leading-[1.13] tracking-[0.01em] ${titleSize(title)}`}
         >
           {title}
         </h2>
