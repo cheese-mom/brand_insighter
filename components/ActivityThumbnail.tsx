@@ -14,9 +14,10 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 function titleSize(title: string) {
-  if (title.length >= 34) return "text-[clamp(18px,4.5cqi,46px)]";
-  if (title.length >= 25) return "text-[clamp(19px,5cqi,50px)]";
-  return "text-[clamp(21px,5.6cqi,56px)]";
+  if (title.length >= 34) return "text-[clamp(16px,5.6cqi,68px)]";
+  if (title.length >= 25) return "text-[clamp(18px,6.5cqi,78px)]";
+  if (title.length >= 17) return "text-[clamp(20px,7.6cqi,91px)]";
+  return "text-[clamp(22px,8.6cqi,103px)]";
 }
 
 export default function ActivityThumbnail({ title, category, className = "" }: Props) {
@@ -25,39 +26,29 @@ export default function ActivityThumbnail({ title, category, className = "" }: P
 
   return (
     <div
-      className={`relative aspect-[3/2] overflow-hidden bg-[#f8f7f3] text-black ${className}`}
+      className={`relative aspect-[3/2] overflow-hidden border border-[#e6e6e6] bg-white text-black ${className}`}
       style={containerStyle}
       aria-label={`${title} 썸네일`}
     >
-      <div className="absolute inset-[6.2cqi]">
-        <div className="flex items-center gap-[2.4cqi]">
+      <div className="absolute inset-[6.2cqi] flex flex-col">
+        <div className="flex items-center gap-[3cqi]">
           <span className="shrink-0 text-[clamp(8px,2.15cqi,20px)] font-bold tracking-[0.12em]">
             {categoryLabel}
           </span>
-          <span className="h-px flex-1 bg-black/45" aria-hidden="true" />
+          <span className="h-[clamp(2px,0.5cqi,6px)] flex-1 bg-[#1547ff]" aria-hidden="true" />
         </div>
 
-        <h2
-          className={`mt-[6.2cqi] w-[64%] break-keep font-display font-black leading-[1.13] tracking-[0.01em] ${titleSize(title)}`}
-        >
-          {title}
-        </h2>
+        <div className="flex min-h-0 flex-1 items-center py-[3cqi]">
+          <h2
+            className={`w-full break-keep font-display font-black leading-[1.13] tracking-[0.01em] ${titleSize(title)}`}
+          >
+            {title}
+          </h2>
+        </div>
 
-        <p className="absolute bottom-0 left-0 text-[clamp(7px,1.75cqi,16px)] font-semibold tracking-[0.07em]">
+        <p className="text-[clamp(7px,1.75cqi,16px)] font-semibold tracking-[0.07em]">
           BRAND INSIGHTER · 박재현
         </p>
-      </div>
-
-      <div
-        className="absolute bottom-[7.5%] right-[4.7%] aspect-square w-[34%] overflow-hidden rounded-full bg-[#e7e7e4]"
-        aria-hidden="true"
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/assets/park-jaehyun-halftone-icon.png"
-          alt=""
-          className="absolute inset-x-[-2%] bottom-[-8%] h-[108%] w-[104%] object-contain object-bottom"
-        />
       </div>
     </div>
   );
