@@ -36,15 +36,25 @@ export async function saveContent(content: SiteContent): Promise<Result> {
   }
 }
 
-export type ActivityInput = Omit<Activity, "id" | "created_at">;
+export type ActivityInput = Omit<Activity, "id" | "created_at" | "updated_at">;
 
 function activityPayload(input: ActivityInput) {
   const status = input.status ?? "draft";
   if (!["draft", "published"].includes(status)) throw new Error("잘못된 상태");
   if (!input.title.trim()) throw new Error("제목을 입력해 주세요.");
   if (status === "published" && !input.body.trim()) throw new Error("발행하려면 본문을 작성해 주세요.");
+  const slug = (input.slug ?? "").trim().toLowerCase();
+  if (slug && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
+    throw new Error("슬러그는 영문 소문자, 숫자, 하이픈만 사용할 수 있습니다.");
+  }
+  if (status === "published" && !slug) throw new Error("발행하려면 URL 슬러그를 입력해 주세요.");
+  const faqItems = (input.faq_items ?? [])
+    .map((item) => ({ question: item.question.trim(), answer: item.answer.trim() }))
+    .filter((item) => item.question && item.answer);
   return { title: input.title, date: input.date, excerpt: input.excerpt, body: input.body,
     thumbnail: input.thumbnail, sort_order: input.sort_order, status,
+    slug,
+    faq_items: faqItems,
     category: input.category ?? "브랜드 인사이트", geo_questions: input.geo_questions ?? "",
     content_outline: input.content_outline ?? "", editorial_notes: input.editorial_notes ?? "" };
 }

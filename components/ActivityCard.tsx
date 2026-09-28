@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Activity } from "@/lib/types";
+import { getActivityPath } from "@/lib/activity-url";
 
 export default function ActivityCard({ item }: { item: Activity }) {
   const fallbackIndex =
@@ -10,7 +11,7 @@ export default function ActivityCard({ item }: { item: Activity }) {
 
   return (
     <article className="group">
-      <Link href={`/activity/${item.id}`} className="block">
+      <Link href={getActivityPath(item)} className="block">
         <div className="aspect-[3/2] w-full overflow-hidden bg-placeholder">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img

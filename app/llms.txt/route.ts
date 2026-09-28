@@ -1,5 +1,6 @@
 import { getActivities, getSiteContent } from "@/lib/content";
 import { getSiteUrl } from "@/lib/site";
+import { getActivityPath } from "@/lib/activity-url";
 
 // llms.txt — AI 답변엔진(ChatGPT/Claude/Perplexity 등)이 사이트를 요약·인용할 때
 // 참조하는 표준 문서. Supabase 콘텐츠를 단일 소스로 사용해 어드민 편집이 즉시 반영된다.
@@ -70,7 +71,7 @@ export async function GET() {
     lines.push("", "## 최근 활동", "");
     lines.push(
       ...recent.map(
-        (a) => `- [${a.title}](${site}/activity/${a.id}) (${a.date})`,
+        (a) => `- [${a.title}](${site}${getActivityPath(a)}) (${a.date})`,
       ),
     );
   }

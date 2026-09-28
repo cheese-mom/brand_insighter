@@ -95,17 +95,20 @@ export async function getActivities(): Promise<Activity[]> {
   }
 }
 
-export async function getActivity(id: string): Promise<Activity | null> {
+export async function getActivity(identifier: string): Promise<Activity | null> {
   // 기본 콘텐츠 id(default-N)는 uuid가 아니라 DB 조회가 불가 —
   // 목록이 폴백으로 렌더된 경우에도 상세 링크가 동작하도록 기본값에서 찾는다.
-  if (!isSupabaseConfigured || id.startsWith("default-")) {
-    return DEFAULT_ACTIVITIES.find((a) => a.id === id) ?? null;
+  if (!isSupabaseConfigured || identifier.startsWith("default-")) {
+    return DEFAULT_ACTIVITIES.find((a) => a.id === identifier || a.slug === identifier) ?? null;
   }
   try {
+    const column = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(identifier)
+      ? "id"
+      : "slug";
     const { data, error } = await readClient()
       .from("activities")
       .select("*")
-      .eq("id", id)
+      .eq(column, identifier)
       .eq("status", "published")
       .maybeSingle();
     if (error) throw error;

@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import CtaBanner from "@/components/CtaBanner";
-import { ArticleJsonLd, BreadcrumbJsonLd } from "@/components/JsonLd";
+import { ArticleJsonLd, BreadcrumbJsonLd, FaqJsonLd } from "@/components/JsonLd";
 import { getActivity } from "@/lib/content";
+import { getActivityPath } from "@/lib/activity-url";
 
 export const dynamic = "force-dynamic";
 
@@ -20,16 +21,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const activity = await getActivity(id);
   if (!activity) return {};
+  const path = getActivityPath(activity);
 
   return {
     title: activity.title,
     description: activity.excerpt,
-    alternates: { canonical: `/activity/${activity.id}` },
+    alternates: { canonical: path },
     openGraph: {
       title: `${activity.title} | 박재현`,
       description: activity.excerpt,
-      url: `/activity/${activity.id}`,
+      url: path,
       type: "article",
+      publishedTime: toIsoDate(activity),
+      modifiedTime: activity.updated_at,
+      section: activity.category,
+      ...(activity.thumbnail ? { images: [activity.thumbnail] } : {}),
+    },
+    twitter: {
+      card: activity.thumbnail ? "summary_large_image" : "summary",
+      title: `${activity.title} | 박재현`,
+      description: activity.excerpt,
       ...(activity.thumbnail ? { images: [activity.thumbnail] } : {}),
     },
   };
@@ -39,6 +50,14 @@ export default async function ActivityDetailPage({ params }: Props) {
   const { id } = await params;
   const activity = await getActivity(id);
   if (!activity) notFound();
+  const path = getActivityPath(activity);
+  if (activity.slug && id !== activity.slug) permanentRedirect(path);
+  const faqItems = (activity.faq_items ?? []).filter(
+    (item) => item.question.trim() && item.answer.trim(),
+  );
+  const faqAlreadyInBody = faqItems.length > 0 && faqItems.every(
+    (item) => activity.body.includes(item.question) && activity.body.includes(item.answer),
+  );
 
   const paragraphs = activity.body
     .split(/\n{2,}/)
@@ -50,14 +69,17 @@ export default async function ActivityDetailPage({ params }: Props) {
       <ArticleJsonLd
         title={activity.title}
         excerpt={activity.excerpt}
-        path={`/activity/${activity.id}`}
+        path={path}
         datePublished={toIsoDate(activity)}
+        dateModified={activity.updated_at}
+        category={activity.category}
         image={activity.thumbnail}
       />
+      <FaqJsonLd items={faqItems} />
       <BreadcrumbJsonLd
         items={[
           { name: "Activity", path: "/activity" },
-          { name: activity.title, path: `/activity/${activity.id}` },
+          { name: activity.title, path },
         ]}
       />
 
@@ -85,6 +107,20 @@ export default async function ActivityDetailPage({ params }: Props) {
             </p>
           ))}
         </div>
+
+        {faqItems.length > 0 && !faqAlreadyInBody && (
+          <section className="mt-14 border-t border-line pt-10" aria-labelledby="activity-faq-title">
+            <h2 id="activity-faq-title" className="text-2xl font-bold text-ink">자주 묻는 질문</h2>
+            <div className="mt-6 divide-y divide-line border-y border-line">
+              {faqItems.map((item) => (
+                <div key={item.question} className="py-6">
+                  <h3 className="font-semibold text-ink">{item.question}</h3>
+                  <p className="mt-3 whitespace-pre-line leading-relaxed text-muted">{item.answer}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
         <div className="mt-14 border-t border-line pt-6">
           <Link

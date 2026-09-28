@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getActivities } from "@/lib/content";
 import { getSiteUrl } from "@/lib/site";
+import { getActivityPath } from "@/lib/activity-url";
 
 // 어드민에서 게시글을 추가하면 즉시 sitemap에 반영되도록 동적 렌더링
 export const dynamic = "force-dynamic";
@@ -18,10 +19,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   const activityPages: MetadataRoute.Sitemap = activities.map((a) => ({
-    url: `${site}/activity/${a.id}`,
+    url: `${site}${getActivityPath(a)}`,
     priority: 0.6,
     changeFrequency: "monthly",
-    ...(a.created_at ? { lastModified: a.created_at } : {}),
+    ...(a.updated_at || a.created_at
+      ? { lastModified: a.updated_at ?? a.created_at }
+      : {}),
   }));
 
   return [...staticPages, ...activityPages];

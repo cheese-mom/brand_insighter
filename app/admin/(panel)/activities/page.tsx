@@ -49,6 +49,7 @@ export default async function ActivitiesAdminPage({ searchParams }: { searchPara
             <div className="min-w-0 flex-1">
               <p className="text-xs text-muted">{a.category} · {a.status === "draft" ? "발행대기" : "발행됨"} {a.date}</p>
               <p className="mt-2 text-sm font-semibold text-ink">{a.title}</p>
+              {a.slug && <p className="mt-1 text-xs text-muted">URL · /activity/{a.slug}</p>}
               {a.geo_questions && <p className="mt-2 whitespace-pre-line text-sm text-muted">GEO 질문 · {a.geo_questions}</p>}
               {a.content_outline && <p className="mt-2 text-sm text-muted">내용 · {a.content_outline}</p>}
               {a.editorial_notes && <p className="mt-2 text-xs text-muted">확인 사항 · {a.editorial_notes}</p>}

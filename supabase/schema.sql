@@ -24,8 +24,27 @@ create table if not exists public.activities (
   geo_questions text not null default '',
   content_outline text not null default '',
   editorial_notes text not null default '',
-  created_at timestamptz not null default now()
+  slug text not null default '',
+  faq_items jsonb not null default '[]'::jsonb check (jsonb_typeof(faq_items) = 'array'),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
 );
+
+create unique index if not exists activities_slug_unique_idx
+  on public.activities (slug) where slug <> '';
+
+create or replace function public.set_updated_at()
+returns trigger language plpgsql set search_path = '' as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$;
+
+drop trigger if exists activities_set_updated_at on public.activities;
+create trigger activities_set_updated_at
+  before update on public.activities
+  for each row execute function public.set_updated_at();
 
 -- ============================================================
 -- Row Level Security

@@ -54,12 +54,16 @@ export type SiteContent = {
   };
 };
 
+export type ActivityFaqItem = { question: string; answer: string };
+
 export type Activity = {
   status?: "draft" | "published";
   category?: string;
   geo_questions?: string;
   content_outline?: string;
   editorial_notes?: string;
+  slug?: string;
+  faq_items?: ActivityFaqItem[];
   id: string;
   date: string; // 표시용 (예: 2026.05.24)
   title: string;
@@ -68,6 +72,7 @@ export type Activity = {
   thumbnail: string | null; // 이미지 URL
   sort_order: number;
   created_at?: string;
+  updated_at?: string;
 };
 
 // Contact 폼 제출 내역

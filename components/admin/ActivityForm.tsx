@@ -23,6 +23,8 @@ export default function ActivityForm({ activity }: { activity?: Activity }) {
     geo_questions: activity?.geo_questions ?? "",
     content_outline: activity?.content_outline ?? "",
     editorial_notes: activity?.editorial_notes ?? "",
+    slug: activity?.slug ?? "",
+    faq_items: activity?.faq_items ?? [],
     date: activity?.date ?? "",
     title: activity?.title ?? "",
     excerpt: activity?.excerpt ?? "",
@@ -69,6 +71,9 @@ export default function ActivityForm({ activity }: { activity?: Activity }) {
 
   const input =
     "w-full border-b border-ink/70 bg-transparent pb-1.5 text-sm focus:outline-none";
+
+  const updateFaq = (index: number, patch: { question?: string; answer?: string }) =>
+    update({ faq_items: (form.faq_items ?? []).map((item, i) => i === index ? { ...item, ...patch } : item) });
 
   // 작성 중인 폼 내용을 공개 화면 형태로 미리보기
   const previewItem: Activity = {
@@ -118,6 +123,18 @@ export default function ActivityForm({ activity }: { activity?: Activity }) {
       </label>
 
       <label className="block">
+        <span className="mb-1.5 block text-sm font-medium text-ink">URL 슬러그</span>
+        <input
+          value={form.slug}
+          onChange={(e) => update({ slug: e.target.value.toLowerCase() })}
+          placeholder="brand-strategy-guide"
+          pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
+          className={input}
+        />
+        <span className="mt-1 block text-xs text-muted">영문 소문자·숫자·하이픈만 사용합니다. 발행 시 필수입니다.</span>
+      </label>
+
+      <label className="block">
         <span className="mb-1.5 block text-sm font-medium text-ink">제목 *</span>
         <input
           required
@@ -126,6 +143,21 @@ export default function ActivityForm({ activity }: { activity?: Activity }) {
           className={input}
         />
       </label>
+
+      <fieldset className="border border-line p-4">
+        <legend className="px-2 text-sm font-medium">자주 묻는 질문 (선택)</legend>
+        <p className="mb-4 text-xs text-muted">입력한 질문·답변은 본문에 실제 표시되며 FAQ 구조화 데이터에도 동일하게 반영됩니다.</p>
+        <div className="space-y-4">
+          {(form.faq_items ?? []).map((item, index) => (
+            <div key={index} className="border border-line bg-neutral-50 p-4">
+              <input value={item.question} onChange={(e) => updateFaq(index, { question: e.target.value })} placeholder="질문" className={input} />
+              <textarea value={item.answer} onChange={(e) => updateFaq(index, { answer: e.target.value })} placeholder="답변" rows={3} className="mt-3 w-full border border-line bg-white p-3 text-sm" />
+              <button type="button" onClick={() => update({ faq_items: (form.faq_items ?? []).filter((_, i) => i !== index) })} className="mt-2 text-xs text-red-600 underline">삭제</button>
+            </div>
+          ))}
+        </div>
+        <button type="button" onClick={() => update({ faq_items: [...(form.faq_items ?? []), { question: "", answer: "" }] })} className="mt-4 border border-ink px-4 py-2 text-sm">+ FAQ 추가</button>
+      </fieldset>
 
       <label className="block">
         <span className="mb-1.5 block text-sm font-medium text-ink">

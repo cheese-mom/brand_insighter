@@ -1,5 +1,6 @@
 import { getSiteContent } from "@/lib/content";
 import { getSiteUrl, SITE_NAME } from "@/lib/site";
+import type { ActivityFaqItem } from "@/lib/types";
 
 // 어드민에서 입력된 텍스트가 그대로 들어가므로 </script> 탈출을 막기 위해 < 를 이스케이프
 function serialize(data: unknown) {
@@ -95,12 +96,16 @@ export function ArticleJsonLd({
   excerpt,
   path,
   datePublished,
+  dateModified,
+  category,
   image,
 }: {
   title: string;
   excerpt: string;
   path: string;
   datePublished?: string;
+  dateModified?: string;
+  category?: string;
   image?: string | null;
 }) {
   const site = getSiteUrl().toString().replace(/\/$/, "");
@@ -110,12 +115,40 @@ export function ArticleJsonLd({
     headline: title,
     description: excerpt,
     url: `${site}${path}`,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${site}${path}`,
+    },
     inLanguage: "ko",
     ...(datePublished ? { datePublished } : {}),
+    ...(dateModified ? { dateModified } : {}),
+    ...(category ? { articleSection: category } : {}),
     ...(image ? { image } : {}),
-    author: { "@id": `${site}/#person` },
+    author: {
+      "@type": "Person",
+      "@id": `${site}/#person`,
+      name: "박재현",
+      url: `${site}/philosophy`,
+    },
     publisher: { "@id": `${site}/#org` },
   };
 
   return <JsonLdScript data={data} />;
+}
+
+export function FaqJsonLd({ items }: { items: ActivityFaqItem[] }) {
+  if (items.length === 0) return null;
+  return (
+    <JsonLdScript
+      data={{
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: items.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: { "@type": "Answer", text: item.answer },
+        })),
+      }}
+    />
+  );
 }

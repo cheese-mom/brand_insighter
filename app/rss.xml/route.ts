@@ -1,5 +1,6 @@
 import { getActivities } from "@/lib/content";
 import { getSiteUrl, SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
+import { getActivityPath } from "@/lib/activity-url";
 
 export const dynamic = "force-dynamic";
 
@@ -23,8 +24,8 @@ export async function GET() {
   const activities = await getActivities();
   const activityItems = activities
     .map((activity) => {
-      const url = `${site}/activity/${activity.id}`;
-      const pubDate = itemDate(activity.created_at);
+      const url = `${site}${getActivityPath(activity)}`;
+      const pubDate = itemDate(activity.updated_at ?? activity.created_at);
       return `<item>
         <title>${escapeXml(activity.title)}</title>
         <link>${escapeXml(url)}</link>
